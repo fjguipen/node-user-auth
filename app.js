@@ -1,14 +1,14 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const router = require('./router')
+const httpProxy = require('http-proxy');
 
-app.get('/hola', (req, res)=>{
-    res.send('Hello World')
-});
+const app = express();
 
-app.get('/', (req, res)=>{
-    res.send('World')
-});
+httpProxy.createProxyServer({target:'http://localhost:3001'}).listen(3000); 
 
-app.listen(3000,"192.168.1.193", ()=>{
+
+app.use('/', router);
+app.listen(3001, 'localhost',() => {
     console.log('Servidor escuchando');
 });
+
